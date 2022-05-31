@@ -1,0 +1,14 @@
+﻿<Application x:Class="WordHelper.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WordHelper"
+             xmlns:convert="clr-namespace:WordHelper.Convert"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="ItemMoveBackGround" Color="#E6E7EA" />
+        <SolidColorBrush x:Key="ItemMoveLineColor" Color="#5C5C5C" />
+
+
+        <convert:ImageSourceConvert x:Key="ImageSourceConvert"/>
+    </Application.Resources>
+</Application>

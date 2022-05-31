@@ -1,0 +1,120 @@
+﻿<Window x:Class="WordHelper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="760" Width="1366">
+    <Window.Resources>
+
+        <Style x:Key="BitmapItemView" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border Name="BD_Collector"  Background="Aquamarine">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Name}"/>
+                                <Image Source="{Binding Path,Mode=OneWay,
+                                        NotifyOnSourceUpdated=True,
+                                        UpdateSourceTrigger=PropertyChanged,
+                                        Converter={StaticResource ImageSourceConvert}}" 
+                                       Name="ImageViewer"
+                                       MaxHeight="50"/>
+                            </StackPanel>
+                          
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BD_Collector" Property="BorderBrush" Value="{DynamicResource ItemMoveLineColor}" />
+                                <Setter TargetName="BD_Collector" Property="BorderThickness" Value="1" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="BD_Collector" Property="BorderBrush" Value="{DynamicResource ItemMoveLineColor}" />
+                                <Setter TargetName="BD_Collector" Property="BorderThickness" Value="1" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="BitmapGroupView" TargetType="{x:Type ListViewItem}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListViewItem}">
+                        <Border Name="BD_Collector" Background="Aquamarine" MinHeight="50" Margin="2"
+                                BorderThickness="1"
+                                BorderBrush="Gray">
+                            <DockPanel>
+                                <ListView Name="ListViewSerialNumber" 
+                                          ItemContainerStyle="{StaticResource BitmapItemView}" 
+                                          SelectionMode="Single"
+                                          Margin="1"
+                                          ItemsSource="{Binding Images,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+
+                                    <ListView.Template>
+                                        <ControlTemplate>
+                                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                                                <ItemsPresenter/>
+                                            </ScrollViewer>
+                                        </ControlTemplate>
+                                    </ListView.Template>
+                                    <ListView.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ListView.ItemsPanel>
+                                </ListView>
+                                
+                            </DockPanel>
+                           
+                        </Border>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="BD_Collector" Property="BorderBrush" Value="{DynamicResource ItemMoveLineColor}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="BD_Collector" Property="BorderBrush" Value="{DynamicResource ItemMoveLineColor}" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <StackPanel Height="50" DockPanel.Dock="Top"
+                    Orientation="Horizontal">
+            <Button Content="Load" Command="{Binding LoadCommand}" Width="100"/>
+            <Button Content="Clean" Command="{Binding CleanCommand}" Width="100"/>
+            <Button Content="Save" Command="{Binding CleanCommand}" Width="100"/>
+        </StackPanel>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <ListView Name="ListViewSerialNumber" 
+                      ItemContainerStyle="{StaticResource BitmapGroupView}" 
+                      SelectionMode="Single"
+                      Margin="1"
+                      ItemsSource="{Binding BitmapGroups,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+              
+                <ListView.Template>
+                    <ControlTemplate>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                            <ItemsPresenter/>
+                        </ScrollViewer>
+                    </ControlTemplate>
+                </ListView.Template>
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel IsItemsHost="True" Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+            </ListView>
+            <ListView Grid.Column="1" />
+        </Grid>
+       
+    </DockPanel>
+</Window>
